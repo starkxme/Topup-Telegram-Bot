@@ -231,18 +231,16 @@ def check_transaction_periodically(message, md5, userid, serverid, item, retries
                 response_data = response.json()
                 if response_data['status'] != 'fail':
                     # Transaction success
-                    transaction_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=12))
                     amount = price_list[item]
-                    order_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     ign = get_ign(userid, serverid)  # Retrieve the user's in-game name
                     success_message = (
-                        "Top up successful✅\n━━━━━━━━━━━━━━━\n"
-                        f"*User*: `{userid} {serverid}`\n"
-                        f"*Name*: `{ign}`\n"  # Include IGN
-                        f"*Transaction*: `{transaction_id}`\n"
-                        f"*Amount*: `{amount} $`\n"
-                        f"*Item*: `{item}`\n"
-                        f"*Order Date*: `{order_date}`"
+                        "New Order Successfully ❇️\n"
+                        f"User ID: `{userid}`\n"
+                        f"Server ID: `{serverid}`\n"
+                        f"Name / ឈ្មោះ : *{ign}*\n"
+                        f"Diamond / កញ្ចប់: `{item}`\n"
+                        f"Price / តម្លៃ : `${amount:.2f}`\n"
+                        f"Status / ស្ថានភាព : `Successfully` ✅"
                     )
                     bot.send_message(message.chat.id, success_message, parse_mode="Markdown")
                     bot.send_message(GROUP_ID, success_message, parse_mode="Markdown")
@@ -256,6 +254,7 @@ def check_transaction_periodically(message, md5, userid, serverid, item, retries
 
     # If we exhausted all retries without success
     bot.send_message(message.chat.id, "Transaction failed or expired. Please try again.")
+
 
 # Run the bot
 bot.infinity_polling()
